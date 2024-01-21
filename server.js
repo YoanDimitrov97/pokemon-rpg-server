@@ -1,8 +1,10 @@
 import express from "express";
+import cors from 'cors'
 import { Server } from "socket.io";
 const app = express();
-// import { characters } from "./characters.js";
+import { characters } from "./characters.js";
 
+app.use(cors())
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
@@ -20,6 +22,12 @@ const io = new Server(server, {
         ? false
         : ["http://localhost:5173", "http://127.0.0.1:5500"],
   },
+});
+
+
+//localhost:3000/characters get all characters
+app.get('/characters', (req, res) => {
+  res.json(characters);
 });
 
 io.on("connection", (socket) => {
